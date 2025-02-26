@@ -7,12 +7,14 @@ public class PlayerController : NetworkBehaviour
 {
     float speed = 5.0f;
     private Rigidbody playerRb;
+    private Camera playerCamera;
     
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        playerCamera = GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame
