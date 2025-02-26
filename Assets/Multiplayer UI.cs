@@ -1,17 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
+using Unity.Netcode.Transports.UTP;
 
-public class MultiplayerUI : NetworkBehaviour
+public class NetworkUI : MonoBehaviour
 {
-   public void Host()
-   {
-       NetworkManager.Singleton.StartHost();
-   }
-   
-    public void Join()
+    public RelayManager relayManager;
+    public TMP_InputField joinCodeInput;
+    public Button hostButton;
+    public Button joinButton;
+
+    private void Start()
     {
-         NetworkManager.Singleton.StartClient();
+        hostButton.onClick.AddListener(() => relayManager.StartHost());
+        joinButton.onClick.AddListener(() => relayManager.JoinGame(joinCodeInput.text));
     }
 }
+
