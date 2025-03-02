@@ -9,13 +9,37 @@ public class GoalNet : MonoBehaviour
     public GameObject ballPrefab;
     public Transform ballSpawnPoint;
     
+    private PointSystem pointSystem;
+    
+    void Start()
+    {
+        pointSystem = GameObject.Find("PointSystem").GetComponent<PointSystem>();
+    }
+    
     [ServerRpc]
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Ball"))
+        if (gameObject.CompareTag("HomeGoal"))
         {
+            if (collider.gameObject.CompareTag("Ball"))
+            {
+                Debug.Log("Goal!");
+                collider.gameObject.IsDestroyed();
+                pointSystem.AddHomePoint();
+                SpawnBallServerRpc();
+            }
+        }
+        
+        else if (gameObject.CompareTag("AwayGoal"))
+        {
+            if (!collider.gameObject.CompareTag("Ball"))
+            {
+                return;
+            }
+            
             Debug.Log("Goal!");
             collider.gameObject.IsDestroyed();
+            pointSystem.AddAwayPoint();
             SpawnBallServerRpc();
         }
     }
