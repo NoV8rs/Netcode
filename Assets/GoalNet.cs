@@ -24,7 +24,7 @@ public class GoalNet : MonoBehaviour
             if (collider.gameObject.CompareTag("Ball"))
             {
                 Debug.Log("Goal!");
-                collider.gameObject.IsDestroyed();
+                Destroy(collider.gameObject);
                 pointSystem.AddHomePoint();
                 SpawnBallServerRpc();
             }
@@ -38,7 +38,7 @@ public class GoalNet : MonoBehaviour
             }
             
             Debug.Log("Goal!");
-            collider.gameObject.IsDestroyed();
+            Destroy(collider.gameObject);
             pointSystem.AddAwayPoint();
             SpawnBallServerRpc();
         }

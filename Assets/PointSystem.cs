@@ -13,13 +13,13 @@ public class PointSystem : MonoBehaviour
     public void AddHomePoint()
     {
         homePoint++;
-        homePointText.text = homePoint.ToString();
+        homePointText.text = "Points: " + homePoint.ToString();
     }
     
     public void AddAwayPoint()
     {
         awayPoint++;
-        awayPointText.text = awayPoint.ToString();
+        awayPointText.text = "Points: " + awayPoint.ToString();
     }
     
     public void ResetPoints()
