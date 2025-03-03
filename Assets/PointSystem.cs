@@ -1,32 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using TMPro;
 using UnityEngine;
 
-public class PointSystem : MonoBehaviour
+public class PointSystem : NetworkBehaviour
 {
     public TextMeshProUGUI homePointText;
     public TextMeshProUGUI awayPointText;
-    public int homePoint;
-    public int awayPoint;
-    
-    public void AddHomePoint()
+
+    private NetworkVariable<int> homePoint = new NetworkVariable<int>(0);
+    private NetworkVariable<int> awayPoint = new NetworkVariable<int>(0);
+
+    private void Start()
     {
-        homePoint++;
-        homePointText.text = "Points: " + homePoint.ToString();
+        homePoint.OnValueChanged += UpdateHomeScoreUI;
+        awayPoint.OnValueChanged += UpdateAwayScoreUI;
+        
+        // Initialize UI with starting values
+        UpdateHomeScoreUI(0, homePoint.Value);
+        UpdateAwayScoreUI(0, awayPoint.Value);
     }
-    
-    public void AddAwayPoint()
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddHomePointServerRpc()
     {
-        awayPoint++;
-        awayPointText.text = "Points: " + awayPoint.ToString();
+        homePoint.Value++;
     }
-    
-    public void ResetPoints()
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddAwayPointServerRpc()
     {
-        homePoint = 0;
-        awayPoint = 0;
-        homePointText.text = homePoint.ToString();
-        awayPointText.text = awayPoint.ToString();
+        awayPoint.Value++;
+    }
+
+    private void UpdateHomeScoreUI(int oldValue, int newValue)
+    {
+        homePointText.text = "Points: " + newValue.ToString();
+    }
+
+    private void UpdateAwayScoreUI(int oldValue, int newValue)
+    {
+        awayPointText.text = "Points: " + newValue.ToString();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetPointsServerRpc()
+    {
+        homePoint.Value = 0;
+        awayPoint.Value = 0;
     }
 }
+

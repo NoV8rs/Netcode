@@ -188,8 +188,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -353,8 +353,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -430,6 +430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250267460}
+  - component: {fileID: 250267461}
   - component: {fileID: 250267459}
   m_Layer: 0
   m_Name: PointSystem
@@ -452,8 +453,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   homePointText: {fileID: 108127865}
   awayPointText: {fileID: 27210750}
-  homePoint: 0
-  awayPoint: 0
 --- !u!4 &250267460
 Transform:
   m_ObjectHideFlags: 0
@@ -469,6 +468,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250267461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250267458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3009052529
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &276693550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,6 +2065,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2232846200975292201, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a99f5a497fea214594510baa6f049f1, type: 2}
+    - target: {fileID: 2488234429035870122, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a99f5a497fea214594510baa6f049f1, type: 2}
+    - target: {fileID: 3736652060633716288, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a99f5a497fea214594510baa6f049f1, type: 2}
     - target: {fileID: 4576798278650091899, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 747507509
@@ -2406,6 +2438,7 @@ MonoBehaviour:
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 62e57e3bc2d8e4945b125d496334314f, type: 2}
+      - {fileID: 11400000, guid: 62e57e3bc2d8e4945b125d496334314f, type: 2}
     TickRate: 50
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -2417,13 +2450,13 @@ MonoBehaviour:
     ForceSamePrefabs: 1
     RecycleNetworkIds: 1
     NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
+    RpcHashSize: 1
     LoadSceneTimeOut: 120
     SpawnTimeout: 10
     EnableNetworkLogs: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 1
+  LogLevel: 0
 --- !u!114 &1381281438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3130,6 +3163,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2232846200975292201, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1cdf915ca8010e840afe7b11b450c9c6, type: 2}
+    - target: {fileID: 2488234429035870122, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1cdf915ca8010e840afe7b11b450c9c6, type: 2}
+    - target: {fileID: 3736652060633716288, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1cdf915ca8010e840afe7b11b450c9c6, type: 2}
     - target: {fileID: 4576798278650091899, guid: 0c7f0a53b97154c4b9f8b630a0df16ac, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2928013965

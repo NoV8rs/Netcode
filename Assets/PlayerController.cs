@@ -48,22 +48,34 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Puts force on the ball when the player collides with it and the player presses the space key
+    
     private void OnTriggerStay(Collider collider)
     {
         if (!IsOwner)
         {
             return;
         }
-        
+
         if (collider.gameObject.CompareTag("Ball") && Input.GetKey(KeyCode.Space))
         {
-            Vector3 forceDirection = collider.gameObject.transform.position - transform.position; // Make an value for how strong the force should be
+            ulong networkObjectId = collider.gameObject.GetComponent<NetworkObject>().NetworkObjectId;
+            ApplyForceToBallServerRpc(networkObjectId);
+        }
+
+        Debug.Log("Triggered");
+    }
+
+    [ServerRpc]
+    private void ApplyForceToBallServerRpc(ulong networkObjectId)
+    {
+        NetworkObject networkObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId];
+        if (networkObject != null)
+        {
+            Vector3 forceDirection = networkObject.transform.position - transform.position;
             forceDirection.Normalize();
-            collider.gameObject.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+            networkObject.GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
             Debug.Log("Force added to the ball");
         }
-        
-        Debug.Log("Triggered");
     }
 
     [ServerRpc]

@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
 
-public class GoalNet : MonoBehaviour
+public class GoalNet : NetworkBehaviour
 {
     public GameObject ballPrefab;
     public Transform ballSpawnPoint;
@@ -15,41 +14,61 @@ public class GoalNet : MonoBehaviour
     {
         pointSystem = GameObject.Find("PointSystem").GetComponent<PointSystem>();
     }
-    
-    [ServerRpc]
+
     private void OnTriggerEnter(Collider collider)
     {
-        if (gameObject.CompareTag("HomeGoal"))
+        if (collider.gameObject.CompareTag("Ball"))
         {
-            if (collider.gameObject.CompareTag("Ball"))
-            {
-                Debug.Log("Goal!");
-                Destroy(collider.gameObject);
-                pointSystem.AddHomePoint();
-                SpawnBallServerRpc();
-            }
-        }
-        
-        else if (gameObject.CompareTag("AwayGoal"))
-        {
-            if (!collider.gameObject.CompareTag("Ball"))
-            {
-                return;
-            }
-            
             Debug.Log("Goal!");
+            HandleGoalServerRpc(gameObject.CompareTag("HomeGoal"));
             Destroy(collider.gameObject);
-            pointSystem.AddAwayPoint();
-            SpawnBallServerRpc();
         }
+    }
+
+    [ServerRpc]
+    private void HandleGoalServerRpc(bool isHomeGoal)
+    {
+        if (isHomeGoal)
+        {
+            pointSystem.AddHomePointServerRpc();
+        }
+        else
+        {
+            pointSystem.AddAwayPointServerRpc();
+        }
+
+        SpawnBallServerRpc();
     }
     
     [ServerRpc]
     private void SpawnBallServerRpc()
     {
-        // Spawn a new ball in the center of the field
         GameObject newBall = Instantiate(ballPrefab, ballSpawnPoint.position, Quaternion.identity);
-        newBall.GetComponent<NetworkObject>().Spawn();
-        newBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        NetworkObject networkObject = newBall.GetComponent<NetworkObject>();
+
+        if (networkObject != null)
+        {
+            networkObject.Spawn(true); // Ensure it's properly spawned on all clients
+            NotifyClientsOfNewBallClientRpc(networkObject.NetworkObjectId);
+        }
+        else
+        {
+            Debug.LogError("Spawned ball does not have a NetworkObject component!");
+        }
+    }
+
+
+    [ClientRpc]
+    private void NotifyClientsOfNewBallClientRpc(ulong networkObjectId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject newBall))
+        {
+            newBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
+        else
+        {
+            Debug.LogError("Failed to find the spawned ball on the client.");
+        }
     }
 }
+
