@@ -10,14 +10,19 @@ public class PointSystem : NetworkBehaviour
     private NetworkVariable<int> homePoint = new NetworkVariable<int>(0);
     private NetworkVariable<int> awayPoint = new NetworkVariable<int>(0);
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
         homePoint.OnValueChanged += UpdateHomeScoreUI;
         awayPoint.OnValueChanged += UpdateAwayScoreUI;
         
-        // Initialize UI with starting values
         UpdateHomeScoreUI(0, homePoint.Value);
         UpdateAwayScoreUI(0, awayPoint.Value);
+    }
+    
+    public override void OnDestroy()
+    {
+        homePoint.OnValueChanged -= UpdateHomeScoreUI;
+        awayPoint.OnValueChanged -= UpdateAwayScoreUI;
     }
 
     [ServerRpc(RequireOwnership = false)]
